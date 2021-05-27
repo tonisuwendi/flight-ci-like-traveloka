@@ -1,0 +1,238 @@
+.banner {
+	background-color: #0870e0;
+	height: 250px;
+	padding-top: 45px;
+	position: relative;
+	width: 100%;
+}
+
+.banner-search {
+	height: 170px;
+}
+
+.banner img {
+	height: 200px;
+	position: absolute;
+	left: 50%;
+	top: calc(50% - 100px);
+	transform: translate(-50%, calc(-50% + 50px));
+}
+
+.banner h2 {
+	color: white;
+	font-family: "Nunito", sans-serif;
+	font-weight: 700;
+	text-align: center;
+}
+
+.line {
+	background-color: white;
+	border-radius: 5px;
+	height: 4px;
+	margin-top: 20px;
+	position: relative;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 80px;
+}
+
+.booking-box {
+	background-color: white;
+	border-radius: 7px;
+	box-sizing: border-box;
+	height: auto;
+	position: relative;
+	margin: auto;
+	margin-top: -100px;
+	padding: 25px;
+	width: 1000px;
+}
+
+.booking-box .form-control-tanggal-pulang {
+	display: none;
+}
+
+.result-search {
+	height: auto;
+	margin: auto;
+	margin-top: 40px;
+	width: 1000px;
+}
+
+.result-search .info-search {
+	background-color: white;
+	border-radius: 7px;
+	box-sizing: border-box;
+	margin-bottom: 30px;
+	padding: 25px 23px;
+	width: 100%;
+}
+
+.result-search .info-search .info {
+	color: #555;
+	font-size: 15px;
+}
+
+.result-search div.list-items div.item {
+	background-color: white;
+	border: 1px solid white;
+	border-radius: 5px;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	padding: 25px 23px;
+	height: auto;
+	margin-top: 15px;
+	transition: 0.3s;
+	width: 100%;
+}
+
+.result-search div.list-items div.item:hover {
+	border: 1px solid rgba(8, 112, 224, 0.6);
+}
+
+.result-search div.list-items div.item .content {
+	display: flex;
+}
+
+.result-search div.list-items div.item .icon-airlines {
+	position: relative;
+	width: 180px;
+}
+
+.result-search div.list-items div.item .icon-airlines img {
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	padding: 10px;
+	width: 50px;
+}
+
+.result-search div.list-items div.item .icon-airlines p {
+	font-size: 15px;
+	font-weight: 400;
+	margin-top: 5px;
+}
+
+.result-search div.list-items div.item .time {
+	display: flex;
+}
+
+.result-search div.list-items div.item .time img.arrow-plane {
+	width: 40px;
+}
+
+.result-search div.list-items div.item .time .item-time {
+	margin: 0 40px;
+}
+
+.result-search div.list-items div.item .time .item-time p.clock {
+	font-family: "Nunito";
+	font-size: 18px;
+}
+
+.result-search div.list-items div.item .time .item-time p.city {
+	color: #555;
+	font-size: 14px;
+}
+
+.result-search div.list-items div.item .content-no-action {
+	display: flex;
+	justify-content: space-between;
+}
+
+.result-search div.list-items div.item .action {
+	text-align: right;
+}
+
+.result-search div.list-items div.item .action p.price {
+	color: #444;
+	font-size: 16px;
+	font-family: "Nunito";
+	font-weight: 700;
+}
+
+.result-search div.list-items div.item .action p.price span {
+	color: #0870e0;
+	font-size: 22px;
+}
+
+.booking {
+	height: auto;
+	margin: auto;
+	margin-bottom: 50px;
+	margin-top: 50px;
+	position: relative;
+	width: 950px;
+}
+
+.booking .title {
+	color: #222;
+	font-family: "Nunito";
+	font-size: 25px;
+}
+
+.booking .subtitle {
+	color: #555;
+	font-family: "Nunito";
+	font-size: 16px;
+}
+
+.booking .content-title {
+	color: #333;
+	font-size: 18px;
+	font-family: "Nunito";
+	margin-bottom: 15px;
+}
+
+.booking .flex {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 30px;
+}
+
+.booking .flex .form {
+	width: calc(100% - 330px);
+}
+
+.booking .flex .form .form-item {
+	background-color: white;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-bottom: 30px;
+	padding: 17px;
+}
+
+.booking .flex .detail {
+	align-self: flex-start;
+	background-color: white;
+	box-sizing: border-box;
+	padding: 20px;
+	width: 300px;
+}
+
+.booking .flex .detail .route {
+	color: #333;
+	font-family: "Nunito";
+	font-size: 16px;
+}
+
+.booking .flex .detail .date {
+	color: #111;
+	font-family: "Nunito";
+	font-size: 15px;
+}
+
+.booking .flex .detail .airline {
+	display: flex;
+	justify-content: space-between;
+}
+
+.booking .flex .detail .airline p {
+	color: #111;
+	font-family: "Nunito";
+	font-size: 16px;
+}
+
+.booking .flex .detail .airline img {
+	max-height: 43px;
+}
