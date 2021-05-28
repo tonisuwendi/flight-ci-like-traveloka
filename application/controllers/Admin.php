@@ -7,6 +7,9 @@ class Admin extends CI_Controller
   public function __construct()
   {
     parent::__construct();
+    if (!$this->session->userdata('admin')) {
+      redirect(base_url() . 'login/admin');
+    }
     $this->load->library('form_validation');
   }
 
@@ -16,6 +19,53 @@ class Admin extends CI_Controller
     $this->load->view('templates/header_admin', $data);
     $this->load->view('admin/index', $data);
     $this->load->view('templates/footer_admin');
+  }
+
+  public function users()
+  {
+    $data['title'] = 'Pengguna - Admin Panel';
+    $data['users'] = $this->User_model->getAllUser();
+    $this->load->view('templates/header_admin', $data);
+    $this->load->view('admin/users', $data);
+    $this->load->view('templates/footer_admin');
+  }
+
+  public function bookings()
+  {
+    $data['title'] = 'Pesanan - Admin Panel';
+    $data['booking'] = $this->Flight_model->getAllBooking();
+    $this->load->view('templates/header_admin', $data);
+    $this->load->view('admin/bookings', $data);
+    $this->load->view('templates/footer_admin');
+  }
+
+  public function detail_booking($id)
+  {
+    $booking = $this->Flight_model->getBookingById($id, null, true);
+    if ($booking) {
+      $data['title'] = 'Detail Pesanan - Admin Panel';
+      $data['booked'] = $booking;
+      $flight = $this->Flight_model->getFlightById($booking['flight_id']);
+      $data['from'] = $this->Airport_model->getAirportById($flight['departure_airport']);
+      $data['to'] = $this->Airport_model->getAirportById($flight['arrival_airport']);
+      $data['airline'] = $this->Airline_model->getAirlineById($flight['airline']);
+      $data['class'] = $this->Setting_model->getSeatClassById($flight['class']);
+      $data['flight'] = $flight;
+      if ($booking['arrival_flight_id'] != 0) {
+        $flight2 = $this->Flight_model->getFlightById($booking['arrival_flight_id']);
+        $data['from2'] = $this->Airport_model->getAirportById($flight2['departure_airport']);
+        $data['to2'] = $this->Airport_model->getAirportById($flight2['arrival_airport']);
+        $data['airline2'] = $this->Airline_model->getAirlineById($flight2['airline']);
+        $data['class2'] = $this->Setting_model->getSeatClassById($flight2['class']);
+        $data['flight2'] = $flight2;
+      }
+      $data['booked_list'] = $this->User_model->getBookedList($id);
+      $this->load->view('templates/header_admin', $data);
+      $this->load->view('admin/detail_booking', $data);
+      $this->load->view('templates/footer_admin');
+    } else {
+      redirect(base_url() . 'admin/bookings');
+    }
   }
 
   public function flights()
@@ -183,11 +233,11 @@ class Admin extends CI_Controller
     } else {
       $this->Airport_model->insertAirport();
       $this->session->set_flashdata('alert', "<script>
-			swal({
-			text: 'Berhasil menambah bandara',
-			icon: 'success'
-			});
-		</script>");
+        swal({
+        text: 'Berhasil menambah bandara',
+        icon: 'success'
+        });
+      </script>");
       redirect(base_url() . 'admin/airports/');
     }
   }
@@ -226,27 +276,60 @@ class Admin extends CI_Controller
       $this->load->view('admin/airlines', $data);
       $this->load->view('templates/footer_admin');
     } else {
-      $this->Airline_model->insertAirline();
-      $this->session->set_flashdata('alert', "<script>
-			swal({
-			text: 'Berhasil menambah maskapai penerbangan',
-			icon: 'success'
-			});
-		</script>");
-      redirect(base_url() . 'admin/airlines/');
+      $upload = $this->Airline_model->uploadImg();
+      if ($upload['result'] == 'success') {
+        $this->Airline_model->insertAirline($upload);
+        $this->session->set_flashdata('alert', "<script>
+        swal({
+          text: 'Berhasil menambah maskapai penerbangan',
+          icon: 'success'
+          });
+        </script>");
+        redirect(base_url() . 'admin/airlines/');
+      } else {
+        $this->session->set_flashdata('alert', "<script>
+        swal({
+          text: 'Gagal mengupload, pastikan logo berukuran maksimal 10MB dan berformat PNG, JPEG, JPG, atau ICO',
+          icon: 'error'
+          });
+        </script>");
+        redirect(base_url() . 'admin/airlines/');
+      }
     }
   }
 
   public function edit_airline($id)
   {
-    $this->Airline_model->updateAirline($id);
-    $this->session->set_flashdata('alert', "<script>
+    if ($_FILES['img']['name'] == "") {
+      $this->Airline_model->updateAirline($id, "");
+      $this->session->set_flashdata('alert', "<script>
 			swal({
 			text: 'Maskapai berhasil diubah',
 			icon: 'success'
 			});
 		</script>");
-    redirect(base_url() . 'admin/airlines/');
+      redirect(base_url() . 'admin/airlines/');
+    } else {
+      $upload = $this->Airline_model->uploadImg();
+      if ($upload['result'] == 'success') {
+        $this->Airline_model->updateAirline($id, $upload['file']['file_name']);
+        $this->session->set_flashdata('alert', "<script>
+          swal({
+          text: 'Maskapai berhasil diubah',
+          icon: 'success'
+          });
+        </script>");
+        redirect(base_url() . 'admin/airlines/');
+      } else {
+        $this->session->set_flashdata('alert', "<script>
+        swal({
+          text: 'Gagal mengubah, pastikan logo berukuran maksimal 10MB dan berformat PNG, JPEG, JPG, atau ICO',
+          icon: 'error'
+          });
+        </script>");
+        redirect(base_url() . 'admin/airlines/');
+      }
+    }
   }
 
   public function delete_airline($id)
@@ -259,5 +342,11 @@ class Admin extends CI_Controller
 			});
 		</script>");
     redirect(base_url() . 'admin/airlines/');
+  }
+
+  public function logout()
+  {
+    $this->session->unset_userdata('admin');
+    redirect(base_url() . 'login/admin');
   }
 }

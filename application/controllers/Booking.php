@@ -8,13 +8,23 @@ class Booking extends CI_Controller
   {
     $data['title'] = 'Situs Pesan Tiket Pesawat';
     $data['css'] = 'style';
+    $rd = isset($_GET['rd']) ? $_GET['rd'] : null;
     $flight = $this->Flight_model->getFlightById($id);
+    $flight2 = $this->Flight_model->getFlightById($rd);
     if ($flight && $this->session->userdata('login')) {
       $data['from'] = $this->Airport_model->getAirportById($flight['departure_airport']);
       $data['to'] = $this->Airport_model->getAirportById($flight['arrival_airport']);
       $data['airline'] = $this->Airline_model->getAirlineById($flight['airline']);
       $data['class'] = $this->Setting_model->getSeatClassById($flight['class']);
       $data['flight'] = $flight;
+      $data['rd'] = $rd;
+      if ($rd) {
+        $data['from2'] = $this->Airport_model->getAirportById($flight2['departure_airport']);
+        $data['to2'] = $this->Airport_model->getAirportById($flight2['arrival_airport']);
+        $data['airline2'] = $this->Airline_model->getAirlineById($flight2['airline']);
+        $data['class2'] = $this->Setting_model->getSeatClassById($flight2['class']);
+        $data['flight2'] = $flight2;
+      }
       $this->load->view('templates/header', $data);
       $this->load->view('templates/navbar');
       $this->load->view('booking', $data);

@@ -49,4 +49,61 @@ class Home extends CI_Controller
     $this->session->set_flashdata('username', $username);
     redirect(base_url() .  isset($_GET['redirect']) ? 'login?' . $_SERVER['QUERY_STRING'] : 'login');
   }
+
+  public function login_admin()
+  {
+    if ($this->session->userdata('admin')) {
+      redirect(base_url() . 'admin');
+    }
+    $data['title'] = 'Login Admin';
+    $data['css'] = 'style';
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar');
+    $this->load->view('admin/login');
+    $this->load->view('templates/footer');
+  }
+
+  public function post_login_admin()
+  {
+    $this->User_model->loginAdmin();
+  }
+
+  public function ticket($id, $bookingId)
+  {
+    $booking = $this->Flight_model->getBookingById($id, $bookingId, true);
+    if ($booking && $booking['status'] == 2) {
+      $data['title'] = 'Tiket ' . $booking['booking_id'];
+      $data['css'] = '';
+      $data['booked'] = $booking;
+      $flight = $this->Flight_model->getFlightById($booking['flight_id']);
+      $data['from'] = $this->Airport_model->getAirportById($flight['departure_airport']);
+      $data['to'] = $this->Airport_model->getAirportById($flight['arrival_airport']);
+      $data['airline'] = $this->Airline_model->getAirlineById($flight['airline']);
+      $data['class'] = $this->Setting_model->getSeatClassById($flight['class']);
+      $data['flight'] = $flight;
+      if (isset($_GET['return'])) {
+        $data['title'] = 'Tiket Pulang ' . $booking['booking_id'];
+        $flight = $this->Flight_model->getFlightById($booking['arrival_flight_id']);
+        $data['from'] = $this->Airport_model->getAirportById($flight['departure_airport']);
+        $data['to'] = $this->Airport_model->getAirportById($flight['arrival_airport']);
+        $data['airline'] = $this->Airline_model->getAirlineById($flight['airline']);
+        $data['class'] = $this->Setting_model->getSeatClassById($flight['class']);
+        $data['flight'] = $flight;
+      } else {
+        $data['title'] = 'Tiket Pergi ' . $booking['booking_id'];
+      }
+      $data['booked_list'] = $this->User_model->getBookedList($id);
+      $this->load->view('templates/header', $data);
+      $this->load->view('admin/ticket', $data);
+      $this->load->view('templates/footer');
+    } else {
+      if ($_GET['redirect'] == "bookings") {
+        redirect(base_url() . 'admin/bookings');
+      } else if ($_GET['redirect'] == "mybooking") {
+        redirect(base_url() . 'user/mybooking');
+      } else {
+        redirect(base_url());
+      }
+    }
+  }
 }

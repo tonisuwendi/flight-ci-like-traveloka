@@ -16,19 +16,27 @@ class Payment extends CI_Controller
   {
     $booking = $this->Flight_model->getBookingById($id);
     $flight = $this->Flight_model->getFlightById($booking['flight_id']);
+    $flight2 = $this->Flight_model->getFlightById($booking['arrival_flight_id']);
     $airline = $this->Airline_model->getAirlineById($flight['airline']);
-    $from = $this->Airport_model->getAirportById($flight['departure_airport']);
-    $to = $this->Airport_model->getAirportById($flight['arrival_airport']);
+    $airline2 = $this->Airline_model->getAirlineById($flight2['airline']);
     $transaction_details = [
-      'order_id' => intval($id),
-      'gross_amount' => intval($booking['price'] * $booking['passanger'])
+      'order_id' => intval($booking['booking_id']),
+      'gross_amount' => intval($booking['price'] * $booking['passanger']) + intval($booking['arrival_price'] * $booking['passanger'])
     ];
-    $items = [
+    $items[] = [
       'id' => intval($booking['id']),
       'price' => intval($booking['price']),
       'quantity' => intval($booking['passanger']),
-      'name' => 'Tiket Pesawat ' . $airline['name']
+      'name' => 'Tiket Pergi ' . $airline['name']
     ];
+    if ($booking['arrival_flight_id'] != 0) {
+      $items[] = [
+        'id' => intval($booking['id']) + 1,
+        'price' => intval($booking['arrival_price']),
+        'quantity' => intval($booking['passanger']),
+        'name' => 'Tiket Pulang ' . $airline2['name']
+      ];
+    }
     $customer_details = [
       'first_name'    => $booking['name'],
       'email'         => $booking['email'],
@@ -66,6 +74,34 @@ class Payment extends CI_Controller
     $this->db->set('status', 1);
     $this->db->where('id', $id);
     $this->db->update('booked');
-    redirect(base_url() . 'user/mybooking/' . $id);
+    redirect(base_url() . 'user/detail_booking/' . $id);
+  }
+
+  public function notification()
+  {
+    $json_result = file_get_contents('php://input');
+    $result = json_decode($json_result);
+
+    if ($result) {
+      $notif = $this->veritrans->status($result->order_id);
+    }
+
+    error_log(print_r($result, TRUE));
+    $transaction = $notif->transaction_status;
+    $order_id = $notif->order_id;
+
+    if ($transaction == 'settlement') {
+      $this->db->set('status', 2);
+      $this->db->where('booking_id', $order_id);
+      $this->db->update('booking');
+    } else if ($transaction == 'pending') {
+      $this->db->set('status', 1);
+      $this->db->where('booking_id', $order_id);
+      $this->db->update('booking');
+    } else if ($transaction == 'deny') {
+      $this->db->set('status', 3);
+      $this->db->where('booking_id', $order_id);
+      $this->db->update('booking');
+    }
   }
 }

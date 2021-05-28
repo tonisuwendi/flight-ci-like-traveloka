@@ -34,6 +34,7 @@
           $("#result-type").val(type);
           $("#result-data").val(JSON.stringify(data));
         }
+        $(".spinner-border").fadeOut();
         snap.pay(data, {
           onSuccess: function(result) {
             changeResult('success', result);

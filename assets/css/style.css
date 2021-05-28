@@ -59,6 +59,16 @@
 	width: 1000px;
 }
 
+.result-search-twoflight {
+	display: flex;
+	justify-content: space-between;
+	width: 1200px;
+}
+
+.result-search div.yourflight {
+	width: 250px;
+}
+
 .result-search .info-search {
 	background-color: white;
 	border-radius: 7px;
@@ -66,6 +76,10 @@
 	margin-bottom: 30px;
 	padding: 25px 23px;
 	width: 100%;
+}
+
+.result-search .list-search-right {
+	width: calc(100% - 270px);
 }
 
 .result-search .info-search .info {

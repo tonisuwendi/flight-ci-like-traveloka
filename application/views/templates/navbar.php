@@ -9,22 +9,22 @@
         <li class="nav-item active mx-1">
           <a class="nav-link" href="<?= base_url(); ?>">Beranda</a>
         </li>
-        <li class="nav-item mx-1">
+        <li class="nav-item active mx-1">
           <a class="nav-link" href="<?= base_url(); ?>maskapai">Maskapai</a>
         </li>
-        <li class="nav-item mx-1">
+        <li class="nav-item active mx-1">
           <a class="nav-link" href="<?= base_url(); ?>bandara">Bandara</a>
         </li>
-        <li class="nav-item mx-1">
+        <li class="nav-item active mx-1">
           <?php if ($this->session->userdata('login')) { ?>
             <a class="nav-link" href="<?= base_url(); ?>user/mybooking">Pesanan Saya</a>
           <?php } else { ?>
             <a class="nav-link" href="<?= base_url(); ?>login?redirect=user/mybooking">Pesanan Saya</a>
           <?php } ?>
         </li>
-        <li class="nav-item ml-5">
+        <li class="nav-item active ml-5">
           <?php if ($this->session->userdata('login')) { ?>
-            <a class="nav-link active" href="<?= base_url(); ?>user"><i class="bi bi-person"></i> Profilku</a>
+            <a class="nav-link" href="<?= base_url(); ?>user"><i class="bi bi-person"></i> Profilku</a>
           <?php } else { ?>
             <a class="btn btn-primary px-3" href="<?= base_url(); ?>user">Login</a>
           <?php } ?>

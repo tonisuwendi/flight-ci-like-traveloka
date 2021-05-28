@@ -60,33 +60,51 @@
       <hr class="sidebar-divider">
 
       <li class="nav-item">
-        <a class="nav-link" href="<?= base_url(); ?>admin/orders">
-          <i class="fas fa-fw fa-chart-area"></i>
+        <a class="nav-link" href="<?= base_url(); ?>admin/users">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Pengguna</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="<?= base_url(); ?>admin/bookings">
+          <i class="fas fa-fw fa-file-alt"></i>
           <span>Pesanan</span></a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link" href="<?= base_url(); ?>admin/flights">
-          <i class="fas fa-fw fa-chart-area"></i>
+          <i class="fas fa-fw fa-plane-departure"></i>
           <span>Penerbangan</span></a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link" href="<?= base_url(); ?>admin/airports">
-          <i class="fas fa-fw fa-chart-area"></i>
+          <i class="fas fa-fw fa-plane-arrival"></i>
           <span>Bandara</span></a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link" href="<?= base_url(); ?>admin/airlines">
-          <i class="fas fa-fw fa-chart-area"></i>
+          <i class="fas fa-fw fa-plane"></i>
           <span>Maskapai</span></a>
       </li>
 
       <li class="nav-item">
+        <a class="nav-link" href="<?= base_url(); ?>admin/pages">
+          <i class="fas fa-fw fa-file"></i>
+          <span>Halaman</span></a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link" href="<?= base_url(); ?>admin/settings">
-          <i class="fas fa-fw fa-chart-area"></i>
+          <i class="fas fa-fw fa-cog"></i>
           <span>Pengaturan</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal" href="#">
+          <i class="fa fa-fw fa-power-off"></i>
+          <span>Keluar</span></a>
       </li>
 
       <hr class="sidebar-divider d-none d-md-block">
@@ -109,13 +127,17 @@
 
 
           <ul class="navbar-nav ml-auto">
-
+            <?php $dataAmin = $this->db->get('admin')->row_array(); ?>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $dataAmin['name'] ?></span>
                 <img class="img-profile rounded-circle" src="<?= base_url(); ?>assets/img/profile.svg">
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="<?= base_url(); ?>admin/edit">
+                  <i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Edit Profil
+                </a>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Keluar

@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+date_default_timezone_set("Asia/Jakarta");
+
 $config['midtrans_production'] = false;
 $config['client_api_midtrans'] = "SB-Mid-client-UzCqbqJ2SMFUQmvo";
 $config['server_api_midtrans'] = "SB-Mid-server-4DmzQJFaoMH_bkwTEb3bpT--";

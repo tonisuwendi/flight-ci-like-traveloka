@@ -19,12 +19,27 @@ class Flight_model extends CI_Model
     return $this->db->get_where('flight', ['id' => $id])->row_array();
   }
 
-  public function getBookingById($id)
+  public function getAllBooking($sort = "desc")
   {
-    return $this->db->get_where('booked', ['id' => $id, 'user_id' => $this->session->userdata('id')])->row_array();
+    $this->db->select("*, booked.id AS bookedId");
+    $this->db->from("booked");
+    $this->db->join("flight", "booked.flight_id=flight.id");
+    $this->db->order_by('booked.id', $sort);
+    return $this->db->get();
   }
 
-  public function searchFlight($from, $to, $dd, $rd, $sc)
+  public function getBookingById($id, $bookingId = null, $free = false)
+  {
+    if (!$free) {
+      $this->db->where('user_id', $this->session->userdata('id'));
+    }
+    if ($bookingId) {
+      $this->db->where('booking_id', $bookingId);
+    }
+    return $this->db->get_where('booked', ['id' => $id])->row_array();
+  }
+
+  public function searchFlight($from, $to, $dd, $rd, $sc, $departure)
   {
     $this->db->select("*, flight.id AS flightId");
     $this->db->from("flight");
@@ -33,7 +48,11 @@ class Flight_model extends CI_Model
     $this->db->where('flight.departure_airport', $from);
     $this->db->where('flight.arrival_airport', $to);
     $this->db->where('flight.class', $sc);
-    $this->db->where('date(flight.departure_datetime)', $dd);
+    if ($departure) {
+      $this->db->where('date(flight.arrival_datetime)', $rd);
+    } else {
+      $this->db->where('date(flight.departure_datetime)', $dd);
+    }
     $this->db->order_by('flight.id', 'desc');
     return $this->db->get();
   }
@@ -98,28 +117,43 @@ class Flight_model extends CI_Model
   public function insertBooking($id, $flight)
   {
     $ps = isset($_GET['ps']) ? $_GET['ps'] : 1;
+    $rd = isset($_GET['rd']) ? $_GET['rd'] : 0;
+    if ($rd != 0) {
+      $flight2 = $this->Flight_model->getFlightById($rd);
+    }
     $data = [
+      'booking_id' => substr(time(), 0, 3) . rand(),
+      'arrival_booking_id' => $rd == 0 ? "" : substr(time(), 1, 4) . rand(),
       'flight_id' => $id,
+      'arrival_flight_id' => $rd,
       'user_id' => $this->session->userdata('id'),
       'name' => $this->input->post('name'),
       'telp' => $this->input->post('telp'),
       'email' => $this->input->post('email'),
       'passanger' => $ps,
       'date_booked' => date('Y-m-d H:i:s'),
-      'price' => $flight['price']
+      'price' => $flight['price'],
+      'arrival_price' => $rd == 0 ? 0 : $flight2['price'],
     ];
     $this->db->insert('booked', $data);
     $idBooked = $this->db->insert_id();
 
     $this->db->set('booked', $ps);
     $this->db->where('id', $id);
+    if ($rd != 0) {
+      $this->db->where('id', $rd);
+    }
     $this->db->update('flight');
 
     $travelerName = $this->input->post('traveler_name');
+    $travelerTitle = $this->input->post('traveler_title');
     foreach ($travelerName as $key => $value) {
       $data = [
         'id_booked' => $idBooked,
-        'name' => $travelerName[$key]
+        'title' => $travelerTitle[$key],
+        'name' => $travelerName[$key],
+        'number' => substr(rand(), 0, 4) . time(),
+        'arrival_number' => $rd == 0 ? 0 : substr(rand(), 1, 5) . time()
       ];
       $this->db->insert('booked_list', $data);
     }

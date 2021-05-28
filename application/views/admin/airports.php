@@ -32,30 +32,36 @@
     <p class="mb-0 lead">List Bandara</p>
   </div>
   <div class="card-body">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <td>No</td>
-          <td>Nama</td>
-          <td>Lokasi</td>
-          <td>Aksi</td>
-        </tr>
-      </thead>
-      <tbody>
-        <?php $no = 1;
-        foreach ($airport->result_array() as $data) : ?>
+    <?php if ($airport->num_rows() > 0) { ?>
+      <table class="table table-bordered">
+        <thead>
           <tr>
-            <td><?= $no ?></td>
-            <td><?= $data['name'] ?></td>
-            <td><?= $data['location'] ?></td>
-            <td>
-              <a href="<?= base_url(); ?>admin/airports?id=<?= $data['id'] ?>&name=<?= $data['name'] ?>&location=<?= $data['location'] ?>" class="btn btn-sm btn-info">edit</a>
-              <a href="<?= base_url(); ?>admin/delete_airport/<?= $data['id'] ?>" onclick="return confirm('Yakin ingin menghapus bandara: <?= $data['name'] ?>?')" class="btn btn-sm btn-danger">hapus</a>
-            </td>
+            <td>No</td>
+            <td>Nama</td>
+            <td>Lokasi</td>
+            <td>Aksi</td>
           </tr>
-        <?php $no++;
-        endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <?php $no = 1;
+          foreach ($airport->result_array() as $data) : ?>
+            <tr>
+              <td><?= $no ?></td>
+              <td><?= $data['name'] ?></td>
+              <td><?= $data['location'] ?></td>
+              <td>
+                <a href="<?= base_url(); ?>admin/airports?id=<?= $data['id'] ?>&name=<?= $data['name'] ?>&location=<?= $data['location'] ?>" class="btn btn-sm btn-info">edit</a>
+                <a href="<?= base_url(); ?>admin/delete_airport/<?= $data['id'] ?>" onclick="return confirm('Yakin ingin menghapus bandara: <?= $data['name'] ?>?')" class="btn btn-sm btn-danger">hapus</a>
+              </td>
+            </tr>
+          <?php $no++;
+          endforeach; ?>
+        </tbody>
+      </table>
+    <?php } else { ?>
+      <div class="alert alert-warning">
+        Belum ada bandara
+      </div>
+    <?php } ?>
   </div>
 </div>

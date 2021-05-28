@@ -21,10 +21,27 @@ class Airline_model extends CI_Model
     return $this->db->get('airline');
   }
 
-  public function insertAirline()
+  public function uploadImg()
+  {
+    $config['upload_path'] = './assets/img/maskapai/';
+    $config['allowed_types'] = 'jpg|png|jpeg|ico|image/png|image/jpg|image/jpeg|image/ico';
+    $config['max_size'] = '10000';
+    $config['file_name'] = round(microtime(true) * 1000);
+
+    $this->load->library('upload', $config);
+    if ($this->upload->do_upload('img')) {
+      $return = array('result' => 'success', 'file' => $this->upload->data(), 'error' => '');
+      return $return;
+    } else {
+      $return = array('result' => 'failed', 'file' => '', 'error' => $this->upload->display_errors());
+      return $return;
+    }
+  }
+
+  public function insertAirline($upload)
   {
     $name = $this->input->post('name');
-    $logo = $this->input->post('logo');
+    $logo = $upload['file']['file_name'];
     $data = [
       'name' => $name,
       'logo' => $logo
@@ -32,14 +49,15 @@ class Airline_model extends CI_Model
     $this->db->insert('airline', $data);
   }
 
-  public function updateAirline($id)
+  public function updateAirline($id, $file)
   {
     $name = $this->input->post('name');
-    $logo = $this->input->post('logo');
     $data = [
       'name' => $name,
-      'logo' => $logo
     ];
+    if ($file != "") {
+      $data['logo'] = $file;
+    }
     $this->db->where('id', $id);
     $this->db->update('airline', $data);
   }

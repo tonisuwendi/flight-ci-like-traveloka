@@ -8,52 +8,58 @@
     </button>
   </div>
   <div class="card-body">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <td>Maskapai</td>
-          <td>Keberangkatan</td>
-          <td>Tiba</td>
-          <td>Kursi</td>
-          <td>Dipesan</td>
-          <td>Harga</td>
-          <td>Aksi</td>
-        </tr>
-      </thead>
-      <tbody>
-        <?php $no = 1;
-        foreach ($flight->result_array() as $data) :
-          $arrivalAirport = $this->Airport_model->getAirportById($data['arrival_airport']); ?>
+    <?php if ($flight->num_rows() > 0) { ?>
+      <table class="table table-bordered">
+        <thead>
           <tr>
-            <td>
-              <img class="mb-2" height="30px" src="<?= $data['logo'] ?>" alt="maskapai logo"><br>
-              <?= $data['name'] ?><br>
-              <?php foreach ($class as $key => $value) {
-                if ($key == $data['class']) {
-                  echo "Kelas: " . $value;
-                }
-              } ?>
-            </td>
-            <td>
-              <?= indoDate($data['departure_datetime'], false, true) ?><br>
-              <span><?= $data['airportName'] ?> - <?= $data['airportLocation'] ?></span>
-            </td>
-            <td>
-              <?= indoDate($data['arrival_datetime'], false, true) ?><br>
-              <span><?= $arrivalAirport['name'] ?> - <?= $arrivalAirport['location'] ?></span>
-            </td>
-            <td><?= $data['seat'] ?></td>
-            <td><?= $data['booked'] ?></td>
-            <td>Rp<?= number_format($data['price'], 0, ",", ".") ?></td>
-            <td>
-              <button onclick="showFlightById(<?= $data['flightId'] ?>)" class="btn btn-sm btn-info" data-toggle="modal" data-target="#addFlightModal"><i class="fa fa-edit"></i></button>
-              <a href="<?= base_url(); ?>admin/delete_flight/<?= $data['flightId'] ?>" onclick="return confirm('Yakin ingin menghapus penerbangan dari maskapai: <?= $data['name'] ?>?')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
-            </td>
+            <td>Maskapai</td>
+            <td>Keberangkatan</td>
+            <td>Tiba</td>
+            <td>Kursi</td>
+            <td>Dipesan</td>
+            <td>Harga</td>
+            <td>Aksi</td>
           </tr>
-        <?php $no++;
-        endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <?php $no = 1;
+          foreach ($flight->result_array() as $data) :
+            $arrivalAirport = $this->Airport_model->getAirportById($data['arrival_airport']); ?>
+            <tr>
+              <td>
+                <img class="mb-2" height="30px" src="<?= base_url(); ?>assets/img/maskapai/<?= $data['logo'] ?>" alt="maskapai logo"><br>
+                <?= $data['name'] ?><br>
+                <?php foreach ($class as $key => $value) {
+                  if ($key == $data['class']) {
+                    echo "Kelas: " . $value;
+                  }
+                } ?>
+              </td>
+              <td>
+                <?= indoDate($data['departure_datetime'], false, true) ?><br>
+                <span><?= $data['airportName'] ?> - <?= $data['airportLocation'] ?></span>
+              </td>
+              <td>
+                <?= indoDate($data['arrival_datetime'], false, true) ?><br>
+                <span><?= $arrivalAirport['name'] ?> - <?= $arrivalAirport['location'] ?></span>
+              </td>
+              <td><?= $data['seat'] ?></td>
+              <td><?= $data['booked'] ?></td>
+              <td>Rp<?= number_format($data['price'], 0, ",", ".") ?></td>
+              <td>
+                <button onclick="showFlightById(<?= $data['flightId'] ?>)" class="btn btn-sm btn-info" data-toggle="modal" data-target="#addFlightModal"><i class="fa fa-edit"></i></button>
+                <a href="<?= base_url(); ?>admin/delete_flight/<?= $data['flightId'] ?>" onclick="return confirm('Yakin ingin menghapus penerbangan dari maskapai: <?= $data['name'] ?>?')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+              </td>
+            </tr>
+          <?php $no++;
+          endforeach; ?>
+        </tbody>
+      </table>
+    <?php } else { ?>
+      <div class="alert alert-warning">
+        Belum ada penerbangan
+      </div>
+    <?php } ?>
   </div>
 </div>
 
