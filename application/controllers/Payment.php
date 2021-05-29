@@ -9,7 +9,9 @@ class Payment extends CI_Controller
     parent::__construct();
     $params = ['server_key' => $this->config->item('server_api_midtrans'), 'production' => $this->config->item('midtrans_production')];
     $this->load->library('midtrans');
+    $this->load->library('veritrans');
     $this->midtrans->config($params);
+    $this->veritrans->config($params);
   }
 
   public function token($id)
