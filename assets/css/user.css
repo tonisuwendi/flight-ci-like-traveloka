@@ -35,3 +35,34 @@
 	font-family: "Nunito";
 	margin-bottom: 15px;
 }
+
+@media screen and (max-width: 1150px) {
+	.wrapper {
+		width: 800px;
+	}
+
+	.wrapper .menu {
+		width: 230px;
+	}
+
+	.wrapper .content {
+		width: calc(100% - 250px);
+	}
+}
+
+@media screen and (max-width: 850px) {
+	.wrapper {
+		display: block;
+		margin-top: 25px;
+		width: 90%;
+	}
+
+	.wrapper .menu {
+		margin-bottom: 20px;
+		width: 100%;
+	}
+
+	.wrapper .content {
+		width: 100%;
+	}
+}

@@ -16,9 +16,11 @@ class Payment extends CI_Controller
   {
     $booking = $this->Flight_model->getBookingById($id);
     $flight = $this->Flight_model->getFlightById($booking['flight_id']);
-    $flight2 = $this->Flight_model->getFlightById($booking['arrival_flight_id']);
     $airline = $this->Airline_model->getAirlineById($flight['airline']);
-    $airline2 = $this->Airline_model->getAirlineById($flight2['airline']);
+    if ($booking['arrival_flight_id']) {
+      $flight2 = $this->Flight_model->getFlightById($booking['arrival_flight_id']);
+      $airline2 = $this->Airline_model->getAirlineById($flight2['airline']);
+    }
     $transaction_details = [
       'order_id' => intval($booking['booking_id']),
       'gross_amount' => intval($booking['price'] * $booking['passanger']) + intval($booking['arrival_price'] * $booking['passanger'])

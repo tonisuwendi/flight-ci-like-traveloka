@@ -16,7 +16,7 @@ class User_model extends CI_Model
 
   public function getBooked($status = "")
   {
-    $this->db->select("*, booked.id AS bookedId");
+    $this->db->select("*, booked.id AS bookedId, booked.price AS bookedPrice");
     $this->db->from("booked");
     $this->db->join("flight", "booked.flight_id=flight.id");
     if ($status != "") {

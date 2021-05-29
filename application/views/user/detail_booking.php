@@ -101,36 +101,38 @@
       <hr>
     <?php } ?>
     <p class="mb-2 lead">Daftar Penumpang</p>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th class="text-center">No</th>
-          <th>Titel</th>
-          <th>Nama</th>
-          <?php if ($booked['arrival_flight_id']) { ?>
-            <th>Nomor Tiket Pergi</th>
-            <th>Nomor Tiket Pulang</th>
-          <?php } else { ?>
-            <th>Nomor Tiket</th>
-          <?php } ?>
-        </tr>
-      </thead>
-      <tbody>
-        <?php $no = 1;
-        foreach ($booked_list->result_array() as $data) : ?>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
           <tr>
-            <td class="text-center"><?= $no; ?></td>
-            <td><?= $data['title'] ?></td>
-            <td><?= $data['name'] ?></td>
-            <td><?= $data['number'] ?></td>
+            <th class="text-center">No</th>
+            <th>Titel</th>
+            <th>Nama</th>
             <?php if ($booked['arrival_flight_id']) { ?>
-              <td><?= $data['arrival_number'] ?></td>
+              <th>Nomor Tiket Pergi</th>
+              <th>Nomor Tiket Pulang</th>
+            <?php } else { ?>
+              <th>Nomor Tiket</th>
             <?php } ?>
           </tr>
-        <?php $no++;
-        endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <?php $no = 1;
+          foreach ($booked_list->result_array() as $data) : ?>
+            <tr>
+              <td class="text-center"><?= $no; ?></td>
+              <td><?= $data['title'] ?></td>
+              <td><?= $data['name'] ?></td>
+              <td><?= $data['number'] ?></td>
+              <?php if ($booked['arrival_flight_id']) { ?>
+                <td><?= $data['arrival_number'] ?></td>
+              <?php } ?>
+            </tr>
+          <?php $no++;
+          endforeach; ?>
+        </tbody>
+      </table>
+    </div>
     <hr>
     <?php if ($booked['status'] == 0) { ?>
       <a href="<?= base_url(); ?>booking/payment/<?= $booked['id'] ?>" class="btn btn-primary px-3">Pilih Metode Pembayaran</a>

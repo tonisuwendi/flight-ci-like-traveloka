@@ -4,7 +4,7 @@ function indoDate($date, $printDay = false, $datetime = false)
 {
   $expl = explode(" ", $date);
   if (count($expl) > 1) {
-    $time = $expl[1];
+    $time = explode(":", $expl[1])[0] . ':' . explode(":", $expl[1])[1];
   } else {
     $time = "";
   }

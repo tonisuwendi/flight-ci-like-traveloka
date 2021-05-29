@@ -7,7 +7,7 @@
 }
 
 .banner-search {
-	height: 170px;
+	height: 160px;
 }
 
 .banner img {
@@ -21,8 +21,19 @@
 .banner h2 {
 	color: white;
 	font-family: "Nunito", sans-serif;
+	font-size: 32px;
 	font-weight: 700;
 	text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+	.banner-search {
+		height: 150px;
+	}
+
+	.banner h2 {
+		font-size: 24px;
+	}
 }
 
 .line {
@@ -48,8 +59,47 @@
 	width: 1000px;
 }
 
+@media screen and (max-width: 1050px) {
+	.booking-box {
+		width: 90%;
+	}
+}
+
 .booking-box .form-control-tanggal-pulang {
 	display: none;
+}
+
+.promo {
+	position: relative;
+	margin: auto;
+	margin-bottom: 50px;
+	margin-top: 80px;
+	width: 1000px;
+}
+
+@media screen and (max-width: 1050px) {
+	.promo {
+		width: 90%;
+	}
+}
+
+.promo .body-promo {
+	margin-top: 20px;
+}
+
+.promo .body-promo .item {
+	background-color: white;
+	border-radius: 4px;
+	box-sizing: border-box;
+	height: auto;
+	padding: 20px;
+}
+
+.promo .body-promo .item .img img {
+	position: relative;
+	height: 50px;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
 
 .result-search {
@@ -57,6 +107,12 @@
 	margin: auto;
 	margin-top: 40px;
 	width: 1000px;
+}
+
+@media screen and (max-width: 1050px) {
+	.result-search {
+		width: 90%;
+	}
 }
 
 .result-search-twoflight {
@@ -101,6 +157,12 @@
 	width: 100%;
 }
 
+@media screen and (max-width: 900px) {
+	.result-search div.list-items div.item {
+		display: block;
+	}
+}
+
 .result-search div.list-items div.item:hover {
 	border: 1px solid rgba(8, 112, 224, 0.6);
 }
@@ -112,6 +174,12 @@
 .result-search div.list-items div.item .icon-airlines {
 	position: relative;
 	width: 180px;
+}
+
+@media screen and (max-width: 1050px) {
+	.result-search div.list-items div.item .icon-airlines {
+		width: auto;
+	}
 }
 
 .result-search div.list-items div.item .icon-airlines img {
@@ -154,6 +222,24 @@
 	justify-content: space-between;
 }
 
+@media screen and (max-width: 700px) {
+	.result-search div.list-items div.item .time img.arrow-plane {
+		display: none;
+	}
+
+	.result-search div.list-items div.item .time .item-time p.clock {
+		font-size: 14px;
+	}
+
+	.result-search div.list-items div.item .time .item-time p.city {
+		font-size: 12px;
+	}
+
+	.result-search div.list-items div.item .time .item-time-none {
+		display: none;
+	}
+}
+
 .result-search div.list-items div.item .action {
 	text-align: right;
 }
@@ -170,6 +256,12 @@
 	font-size: 22px;
 }
 
+@media screen and (max-width: 700px) {
+	.result-search div.list-items div.item .action p.price span {
+		font-size: 18px;
+	}
+}
+
 .booking {
 	height: auto;
 	margin: auto;
@@ -177,6 +269,18 @@
 	margin-top: 50px;
 	position: relative;
 	width: 950px;
+}
+
+@media screen and (max-width: 1000px) {
+	.booking {
+		width: 700px;
+	}
+}
+
+@media screen and (max-width: 750px) {
+	.booking {
+		width: 90%;
+	}
 }
 
 .booking .title {
@@ -207,7 +311,6 @@
 .booking .flex .form {
 	width: calc(100% - 330px);
 }
-
 .booking .flex .form .form-item {
 	background-color: white;
 	border-radius: 4px;
@@ -222,6 +325,20 @@
 	box-sizing: border-box;
 	padding: 20px;
 	width: 300px;
+}
+
+@media screen and (max-width: 750px) {
+	.booking .flex {
+		display: block;
+	}
+
+	.booking .flex .form {
+		width: 100%;
+	}
+
+	.booking .flex .detail {
+		width: 100%;
+	}
 }
 
 .booking .flex .detail .route {
@@ -249,4 +366,55 @@
 
 .booking .flex .detail .airline img {
 	max-height: 43px;
+}
+
+.content-container {
+	position: relative;
+	margin: auto;
+	margin-bottom: 30px;
+	margin-top: 40px;
+	width: 1000px;
+}
+
+@media screen and (max-width: 1050px) {
+	.content-container {
+		width: 90%;
+	}
+}
+
+.content-container p {
+	color: #333;
+	font-family: "Nunito";
+	font-size: 17px;
+	margin: auto;
+	position: relative;
+	text-align: center;
+	width: 600px;
+}
+
+@media screen and (max-width: 650px) {
+	.content-container p {
+		font-size: 15px;
+		width: 90%;
+	}
+}
+
+.content-container .img {
+	display: flex;
+	gap: 20px;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.content-container .img img {
+	border: 1px solid #d5d5d5;
+	border-radius: 5px;
+	padding: 10px;
+	height: 60px;
+}
+
+@media screen and (max-width: 700px) {
+	.content-container .img img {
+		height: 40px;
+	}
 }

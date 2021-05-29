@@ -27,7 +27,7 @@
               <td><?= $data['booking_id'] ?></td>
               <td><?= $data['name'] ?></td>
               <td><?= $departureAirport['location'] . $iconflowplane . $arrivalAirport['location'] ?></td>
-              <td>Rp<?= number_format(($data['price'] * $data['passanger']) + ($data['arrival_price'] * $data['passanger']), 0, ",", ".") ?></td>
+              <td>Rp<?= number_format(($data['bookedPrice'] * $data['passanger']) + ($data['arrival_price'] * $data['passanger']), 0, ",", ".") ?></td>
               <?php if ($data['status'] == 0) { ?>
                 <td><small>Belum memilih metode bayar</small></td>
               <?php } else if ($data['status'] == 1) { ?>

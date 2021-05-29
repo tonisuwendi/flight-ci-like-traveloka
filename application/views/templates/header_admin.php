@@ -16,7 +16,7 @@
 
   <link href="<?= base_url(); ?>assets/css/sb-admin-2.min.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+  <link rel="shortcut icon" href="<?= base_url(); ?>assets/img/logo/favicon.ico" type="image/x-icon">
 
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -52,7 +52,7 @@
       <hr class="sidebar-divider my-0">
 
       <li class="nav-item">
-        <a class="nav-link" href="<?= base_url(); ?>">
+        <a class="nav-link" href="<?= base_url(); ?>admin">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -93,12 +93,6 @@
         <a class="nav-link" href="<?= base_url(); ?>admin/pages">
           <i class="fas fa-fw fa-file"></i>
           <span>Halaman</span></a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="<?= base_url(); ?>admin/settings">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Pengaturan</span></a>
       </li>
 
       <li class="nav-item">

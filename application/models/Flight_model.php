@@ -14,6 +14,18 @@ class Flight_model extends CI_Model
     return $this->db->get();
   }
 
+  public function getFlightDiscount($sort = "desc")
+  {
+    $this->db->select("*, flight.id AS flightId, airport.name AS airportName, airport.location AS airportLocation");
+    $this->db->from("flight");
+    $this->db->join("airport", "flight.departure_airport=airport.id");
+    $this->db->join("airline", "flight.airline=airline.id");
+    $this->db->where('flight.discount !=', 0);
+    $this->db->where('flight.departure_datetime >=', date('Y-m-d H:i:s'));
+    $this->db->order_by('flight.id', $sort);
+    return $this->db->get();
+  }
+
   public function getFlightById($id)
   {
     return $this->db->get_where('flight', ['id' => $id])->row_array();
@@ -21,7 +33,7 @@ class Flight_model extends CI_Model
 
   public function getAllBooking($sort = "desc")
   {
-    $this->db->select("*, booked.id AS bookedId");
+    $this->db->select("*, booked.id AS bookedId, booked.price AS bookedPrice");
     $this->db->from("booked");
     $this->db->join("flight", "booked.flight_id=flight.id");
     $this->db->order_by('booked.id', $sort);
@@ -67,6 +79,7 @@ class Flight_model extends CI_Model
     $arrival_datetime = $this->input->post('arrival_datetime');
     $seat = $this->input->post('seat');
     $price = $this->input->post('price');
+    $discount = $this->input->post('discount');
     $class = $this->input->post('class');
     $data = [
       'airline' => $airline,
@@ -77,6 +90,7 @@ class Flight_model extends CI_Model
       'arrival_datetime' => $arrival_datetime,
       'seat' => $seat,
       'price' => $price,
+      'discount' => $discount,
       'class' => $class,
     ];
     $this->db->insert('flight', $data);
@@ -92,6 +106,7 @@ class Flight_model extends CI_Model
     $arrival_datetime = $this->input->post('arrival_datetime');
     $seat = $this->input->post('seat');
     $price = $this->input->post('price');
+    $discount = $this->input->post('discount');
     $class = $this->input->post('class');
     $data = [
       'airline' => $airline,
@@ -102,6 +117,7 @@ class Flight_model extends CI_Model
       'arrival_datetime' => $arrival_datetime,
       'seat' => $seat,
       'price' => $price,
+      'discount' => $discount,
       'class' => $class,
     ];
     $this->db->where('id', $id);
@@ -132,7 +148,7 @@ class Flight_model extends CI_Model
       'email' => $this->input->post('email'),
       'passanger' => $ps,
       'date_booked' => date('Y-m-d H:i:s'),
-      'price' => $flight['price'],
+      'price' => $flight['discount'] == 0 ? $flight['price'] : ($flight['price'] - ($flight['price'] * $flight['discount'] / 100)),
       'arrival_price' => $rd == 0 ? 0 : $flight2['price'],
     ];
     $this->db->insert('booked', $data);

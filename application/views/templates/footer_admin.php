@@ -39,11 +39,16 @@
 <script src="<?= base_url(); ?>assets/js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/jquery.easing.min.js"></script>
 <script src="<?= base_url(); ?>assets/js/sb-admin-2.min.js"></script>
-<script src="<?= base_url(); ?>assets/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/18.0.0/classic/ckeditor.js"></script>
 <script>
-  $(".datetimepickerlib").datetimepicker({
-    format: 'dd-mm-yyyy hh:ii'
-  })
+  ClassicEditor
+    .create(document.querySelector('#description'))
+    .then(editor => {
+      console.log(editor);
+    })
+    .catch(error => {
+      console.error(error);
+    });
 
   function showFlightById(id) {
     $.ajax({

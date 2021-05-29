@@ -34,7 +34,7 @@
           </tr>
           <tr>
             <td>Harga</td>
-            <td>: Rp <?= number_format(($booked['price'] * $booked['passanger'] + ($booked['price'] * $booked['passanger'])), 0, ",", "."); ?></td>
+            <td>: Rp <?= number_format(($booked['price'] * $booked['passanger'] + ($booked['arrival_price'] * $booked['passanger'])), 0, ",", "."); ?></td>
           </tr>
         </table>
       </div>

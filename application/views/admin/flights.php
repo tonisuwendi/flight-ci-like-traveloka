@@ -45,10 +45,17 @@
               </td>
               <td><?= $data['seat'] ?></td>
               <td><?= $data['booked'] ?></td>
-              <td>Rp<?= number_format($data['price'], 0, ",", ".") ?></td>
               <td>
-                <button onclick="showFlightById(<?= $data['flightId'] ?>)" class="btn btn-sm btn-info" data-toggle="modal" data-target="#addFlightModal"><i class="fa fa-edit"></i></button>
-                <a href="<?= base_url(); ?>admin/delete_flight/<?= $data['flightId'] ?>" onclick="return confirm('Yakin ingin menghapus penerbangan dari maskapai: <?= $data['name'] ?>?')" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                <?php if ($data['discount'] == 0) { ?>
+                  Rp<?= number_format($data['price'], 0, ",", ".") ?>
+                <?php } else { ?>
+                  <del>Rp<?= number_format($data['price'], 0, ",", ".") ?></del>
+                  Rp<?= number_format(($data['price']) - ($data['price'] * $data['discount'] / 100), 0, ",", ".") ?>
+                <?php } ?>
+              </td>
+              <td>
+                <button onclick="showFlightById(<?= $data['flightId'] ?>)" class="btn btn-sm btn-info mb-1" data-toggle="modal" data-target="#addFlightModal"><i class="fa fa-edit"></i></button>
+                <a href="<?= base_url(); ?>admin/delete_flight/<?= $data['flightId'] ?>" onclick="return confirm('Yakin ingin menghapus penerbangan dari maskapai: <?= $data['name'] ?>?')" class="btn mb-1 btn-sm btn-danger"><i class="fa fa-trash"></i></a>
               </td>
             </tr>
           <?php $no++;
@@ -137,6 +144,13 @@
                 <div class="form-group">
                   <label for="price">Harga</label>
                   <input type="number" required id="price" autocomplete="off" class="form-control" name="price" placeholder="1000000">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="discount">Diskon</label>
+                  <input type="number" required id="discount" autocomplete="off" class="form-control" name="discount" placeholder="Misal: 10">
+                  <small class="text-secondary">Tanpa tanda <strong>%</strong>. Isi 0 jika tidak diskon</small>
                 </div>
               </div>
               <div class="col-md-6">

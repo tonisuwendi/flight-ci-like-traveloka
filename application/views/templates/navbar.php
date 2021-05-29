@@ -22,7 +22,8 @@
             <a class="nav-link" href="<?= base_url(); ?>login?redirect=user/mybooking">Pesanan Saya</a>
           <?php } ?>
         </li>
-        <li class="nav-item active ml-5">
+        <div class="mx-3"></div>
+        <li class="nav-item active">
           <?php if ($this->session->userdata('login')) { ?>
             <a class="nav-link" href="<?= base_url(); ?>user"><i class="bi bi-person"></i> Profilku</a>
           <?php } else { ?>

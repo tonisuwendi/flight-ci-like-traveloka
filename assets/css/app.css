@@ -56,6 +56,32 @@ nav.navbar {
 	text-align: center;
 }
 
+.bd-footer {
+	font-size: 0.875rem;
+	color: #63707c;
+}
+.bd-footer a {
+	font-weight: 600;
+	color: #495057;
+}
+.bd-footer a:hover,
+.bd-footer a:focus {
+	color: #007bff;
+}
+.bd-footer p {
+	margin-bottom: 0;
+}
+.bd-footer-links {
+	padding-left: 0;
+	margin-bottom: 1rem;
+}
+.bd-footer-links li {
+	display: inline-block;
+}
+.bd-footer-links li + li {
+	margin-left: 1rem;
+}
+
 @media screen and (max-width: 400px) {
 	.auth-wrapper {
 		width: 90%;

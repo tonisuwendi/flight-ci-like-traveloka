@@ -16,6 +16,12 @@ class Admin extends CI_Controller
   public function index()
   {
     $data['title'] = 'Admin Panel';
+    $data['user'] = $this->User_model->getAllUser();
+    $data['order'] = $this->Flight_model->getAllBooking();
+    $data['flight'] = $this->Flight_model->getAllFlight();
+    $data['airport'] = $this->Airport_model->getAllAirport();
+    $data['airline'] = $this->Airline_model->getAllAirline();
+    $data['pages'] = $this->Setting_model->getPages();
     $this->load->view('templates/header_admin', $data);
     $this->load->view('admin/index', $data);
     $this->load->view('templates/footer_admin');
@@ -187,6 +193,13 @@ class Admin extends CI_Controller
             </div>
             <div class="col-md-6">
                 <div class="form-group">
+                  <label for="discount">Diskon</label>
+                  <input type="number" required id="discount" autocomplete="off" class="form-control" value="' . $flight['discount'] . '" name="discount" placeholder="Misal: 10">
+                  <small class="text-secondary">Tanpa tanda <strong>%</strong>. Isi 0 jika tidak diskon</small>
+                </div>
+              </div>
+            <div class="col-md-6">
+                <div class="form-group">
                   <label for="class">Kelas</label>
                   <select name="class" required id="class" class="form-control">';
     foreach ($class  as $key => $value) {
@@ -342,6 +355,90 @@ class Admin extends CI_Controller
 			});
 		</script>");
     redirect(base_url() . 'admin/airlines/');
+  }
+
+  public function pages()
+  {
+    $data['title'] = 'Halaman - Admin Panel';
+    $data['pages'] = $this->Setting_model->getPages();
+    $this->load->view('templates/header_admin', $data);
+    $this->load->view('admin/pages', $data);
+    $this->load->view('templates/footer_admin');
+  }
+
+  public function add_page()
+  {
+    $this->form_validation->set_rules('title', 'Judul', 'required', ['required' => 'Judul wajib diisi']);
+    if ($this->form_validation->run() == false) {
+      $data['title'] = 'Tambah Halaman - Admin Panel';
+      $this->load->view('templates/header_admin', $data);
+      $this->load->view('admin/add_page', $data);
+      $this->load->view('templates/footer_admin');
+    } else {
+      $this->Setting_model->insertPage();
+      $this->session->set_flashdata('alert', "<script>
+				swal({
+				text: 'Halaman berhasil ditambahkan',
+				icon: 'success'
+				});
+				</script>");
+      redirect(base_url() . 'admin/pages');
+    }
+  }
+
+  public function edit_page($id)
+  {
+    $this->form_validation->set_rules('title', 'Judul', 'required', ['required' => 'Judul wajib diisi']);
+    if ($this->form_validation->run() == false) {
+      $data['title'] = 'Edit Halaman - Admin Panel';
+      $data['page'] = $this->Setting_model->getPageById($id);
+      $this->load->view('templates/header_admin', $data);
+      $this->load->view('admin/edit_page', $data);
+      $this->load->view('templates/footer_admin');
+    } else {
+      $this->Setting_model->updatePage($id);
+      $this->session->set_flashdata('alert', "<script>
+				swal({
+				text: 'Halaman berhasil diubah',
+				icon: 'success'
+				});
+				</script>");
+      redirect(base_url() . 'admin/pages');
+    }
+  }
+
+  public function delete_page($id)
+  {
+    $this->db->where('id', $id);
+    $this->db->delete('pages');
+    $this->session->set_flashdata('alert', "<script>
+			swal({
+			text: 'Halaman Berhasil Dihapus',
+			icon: 'success'
+			});
+			</script>");
+    redirect(base_url() . 'admin/pages');
+  }
+
+  public function edit()
+  {
+    $data['title'] = 'Edit Profil Admin - Admin Panel';
+    $data['admin'] = $this->db->get('admin')->row_array();
+    $this->load->view('templates/header_admin', $data);
+    $this->load->view('admin/edit', $data);
+    $this->load->view('templates/footer_admin');
+  }
+
+  public function post_edit()
+  {
+    $this->Setting_model->editProfil();
+    $this->session->set_flashdata('alert', "<script>
+			swal({
+			text: 'Berhasil edit profil',
+			icon: 'success'
+			});
+			</script>");
+    redirect(base_url() . 'admin/edit');
   }
 
   public function logout()

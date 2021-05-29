@@ -1,7 +1,6 @@
 <?php include 'templates/date.php' ?>
 
 <div class="banner banner-search">
-  <!-- <img src="<?= base_url(); ?>assets/img/pesawat.png" class="pesawat" alt="pesawat"> -->
   <div class="content">
     <h2>Terbang puas, tetap terjangkau</h2>
     <div class="line"></div>
@@ -73,14 +72,14 @@
                   <p class="city"><?= $to['name'] ?> <br />
                     <?= $to['location'] ?></p>
                 </div>
-                <div class="item-time">
+                <div class="item-time item-time-none">
                   <p class="clock mb-1"><?= timeDifferent($data['departure_datetime'], $data['arrival_datetime']) ?></p>
                   <p class="city">Langsung</p>
                 </div>
               </div>
             </div>
             <div class="action">
-              <p class="price mb-2"><span>Rp <?= number_format($data['price'], 0, ',', '.') ?></span>/org</p>
+              <p class="price mb-2"><span>Rp <?= number_format(($data['price']) - ($data['price'] * $data['discount'] / 100), 0, ",", ".") ?></span>/org</p>
               <?php if ($this->session->userdata('login')) { ?>
                 <?php if ($rd) { ?>
                   <?php if ($departure) { ?>

@@ -28,6 +28,7 @@ class Booking extends CI_Controller
       $this->load->view('templates/header', $data);
       $this->load->view('templates/navbar');
       $this->load->view('booking', $data);
+      $this->load->view('templates/footer_tmpl');
       $this->load->view('templates/footer');
     } else {
       redirect(base_url());
